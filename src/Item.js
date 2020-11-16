@@ -3,12 +3,24 @@ import React from 'react';
 const Item = ({ name, price, category, brand }) => {
   return (
     <div className="item">
-      <img src="" alt="whatever" />
-      <h3>{name}<span>- ${price}</span></h3>
-      <p>{category} - {brand}</p>
+      <img
+        src={require(`./images/${name.replaceAll(' ', '_')}.jpg`).default}
+        alt="whatever"
+        className="img-fluid img-fluid-not-cart"
+      />
+      <h3 className="mt-2">
+        {name}
+        <span className="item-price">&nbsp;- ${price}</span>
+      </h3>
+      <p>
+        {category} - {brand}
+      </p>
       <div className="flex">
-        <input type="number" />
-        <button>add to cart</button>
+        <label htmlFor={`item-${name}`}>quantity</label>
+        <div>
+          <input type="number" id={`item-${name}`} />
+          <button className="btn btn-dark ml-3">add to cart</button>
+        </div>
       </div>
     </div>
   );

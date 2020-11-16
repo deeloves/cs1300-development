@@ -3,9 +3,9 @@ import React from 'react';
 const Filter = () => {
   return (
     <>
-      <div>
-        <h2>search by category <button>(reset)</button>:</h2>
-        <div className="flex">
+      <div className="filter-outer">
+        <h2>search by category <button className="reset">(reset)</button>:</h2>
+        <div className="filter-inner">
           <div>
             <input id="checkbox-food" type="checkbox" name="category" />
             <label htmlFor="checkbox-food">food</label>
@@ -20,9 +20,9 @@ const Filter = () => {
           </div>
         </div>
       </div>
-      <div>
-        <h2>search by brand <button>(reset)</button>:</h2>
-        <div className="flex">
+      <div className="filter-outer">
+        <h2>search by brand <button className="reset">(reset)</button>:</h2>
+        <div className="filter-inner">
           <div>
             <input id="checkbox-good-value" type="checkbox" name="brand" />
             <label htmlFor="checkbox-good-value">Good Value</label>

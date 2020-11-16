@@ -4,16 +4,15 @@ import ItemInCart from './ItemInCart';
 const Cart = ({ itemsInCart }) => {
   return (
     <div className="cart">
-      <h2>your cart</h2>
+      <h2 className="mb-3">your cart</h2>
       {itemsInCart.map(item => (
         <ItemInCart
           name={item.name}
           price={item.price}
           quantity={item.quantity}
-          photo={item.photo}
         />
       ))}
-      <button>checkout</button>
+      <button className="checkout">checkout</button>
     </div>
   );
 };

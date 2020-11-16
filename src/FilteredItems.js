@@ -16,17 +16,17 @@ const FilteredItems = ({ items, priceDirection, categories, brands }) => {
     );
   }
   return (
-    <>
+    <div className="filtered-items">
       {itemsToRenderSorted.map(item => (
         <Item
+          key={item.name}
           name={item.name}
           price={item.price}
           category={item.category}
           brand={item.brand}
-          photo={item.photo}
         />
       ))}
-    </>
+    </div>
   );
 };
 
