@@ -1,7 +1,13 @@
 import React from 'react';
 import Item from './Item';
 
-const FilteredItems = ({ items, priceDirection, categories, brands }) => {
+const FilteredItems = ({
+  items,
+  priceDirection,
+  categories,
+  brands,
+  changeQuantity
+}) => {
   const itemsToRenderUnsorted = items.filter(
     item => categories.includes(item.category) && brands.includes(item.brand)
   );
@@ -24,6 +30,8 @@ const FilteredItems = ({ items, priceDirection, categories, brands }) => {
           price={item.price}
           category={item.category}
           brand={item.brand}
+          quantity={item.quantity}
+          changeQuantity={changeQuantity}
         />
       ))}
     </div>

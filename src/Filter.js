@@ -1,16 +1,26 @@
 import React from 'react';
 
-const Filter = ({ categories, brands, filterApp }) => {
+const Filter = ({
+  categories,
+  brands,
+  filterApp,
+  resetCategories,
+  resetBrands
+}) => {
   // can't name function in App & Filter the same so have to name them
   // something stupid like this
   const filterFilter = e => {
-    filterApp(e.target.id, e.target.value);
+    filterApp(e.target.id);
   };
   return (
     <>
       <div className="filter-outer">
         <h2>
-          search by category <button className="reset">(reset)</button>:
+          search by category{' '}
+          <button className="reset" onClick={resetCategories}>
+            (reset)
+          </button>
+          :
         </h2>
         <div className="filter-inner">
           <div>
@@ -47,7 +57,11 @@ const Filter = ({ categories, brands, filterApp }) => {
       </div>
       <div className="filter-outer">
         <h2>
-          search by brand <button className="reset">(reset)</button>:
+          search by brand{' '}
+          <button className="reset" onClick={resetBrands}>
+            (reset)
+          </button>
+          :
         </h2>
         <div className="filter-inner">
           <div>
