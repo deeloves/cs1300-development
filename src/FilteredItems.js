@@ -6,7 +6,8 @@ const FilteredItems = ({
   priceDirection,
   categories,
   brands,
-  changeQuantity
+  changeQuantity,
+  addToCart
 }) => {
   const itemsToRenderUnsorted = items.filter(
     item => categories.includes(item.category) && brands.includes(item.brand)
@@ -32,6 +33,7 @@ const FilteredItems = ({
           brand={item.brand}
           quantity={item.quantity}
           changeQuantity={changeQuantity}
+          addToCart={addToCart}
         />
       ))}
     </div>

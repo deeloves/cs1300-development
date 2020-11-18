@@ -19,6 +19,11 @@ h6 {
   margin: 1.5rem;
 }
 
+.alert {
+  top: 0;
+  left: 0;
+}
+
 /* sorting */
 
 .sort {
@@ -149,6 +154,10 @@ h6 {
   border: 2px solid white;
   border-radius: 5px;
   position: relative;
+}
+
+.img-cart {
+  max-width: 15vw;
 }
 
 .checkout {

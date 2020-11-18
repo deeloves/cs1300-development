@@ -6,93 +6,96 @@ import FilteredItems from './FilteredItems';
 import Cart from './Cart';
 import './App.scss';
 
+const pantry = [
+  {
+    name: 'rice',
+    price: 3.99,
+    category: 'food',
+    brand: 'Good Value',
+    quantity: 0
+  },
+  {
+    name: 'beans',
+    price: 0.99,
+    category: 'food',
+    brand: 'Good Value',
+    quantity: 0
+  },
+  {
+    name: 'bread',
+    price: 1.49,
+    category: 'food',
+    brand: 'Good Value',
+    quantity: 0
+  },
+  {
+    name: 'ham',
+    price: 9.99,
+    category: 'food',
+    brand: 'CarcinoGen',
+    quantity: 0
+  },
+  {
+    name: 'cantaloupe',
+    price: 2.49,
+    category: 'food',
+    brand: 'Croagur',
+    quantity: 0
+  },
+  {
+    name: 'spring mix',
+    price: 4.99,
+    category: 'food',
+    brand: 'Croagur',
+    quantity: 0
+  },
+  {
+    name: 'hand sanitizer',
+    price: 999.99,
+    category: 'other essentials',
+    brand: 'Croagur',
+    quantity: 0
+  },
+  {
+    name: 'sanitizing wipes',
+    price: 3.99,
+    category: 'other essentials',
+    brand: 'Croagur',
+    quantity: 0
+  },
+  {
+    name: 'face masks',
+    price: 12.99,
+    category: 'other essentials',
+    brand: 'Croagur',
+    quantity: 0
+  },
+  {
+    name: 'disposable gloves',
+    price: 18.99,
+    category: 'other essentials',
+    brand: 'Croagur',
+    quantity: 0
+  },
+  {
+    name: 'whiskey',
+    price: 24.99,
+    category: 'other essentials',
+    brand: 'CarcinoGen',
+    quantity: 0
+  },
+  {
+    name: 'toilet paper',
+    price: 7.99,
+    category: 'non-essentials',
+    brand: 'Good Value',
+    quantity: 0
+  }
+];
+
 const App = () => {
-  const [items, setItems] = useState([
-    {
-      name: 'rice',
-      price: 3.99,
-      category: 'food',
-      brand: 'Good Value',
-      quantity: 0
-    },
-    {
-      name: 'beans',
-      price: 0.99,
-      category: 'food',
-      brand: 'Good Value',
-      quantity: 0
-    },
-    {
-      name: 'bread',
-      price: 1.49,
-      category: 'food',
-      brand: 'Good Value',
-      quantity: 0
-    },
-    {
-      name: 'ham',
-      price: 9.99,
-      category: 'food',
-      brand: 'CarcinoGen',
-      quantity: 0
-    },
-    {
-      name: 'cantaloupe',
-      price: 2.49,
-      category: 'food',
-      brand: 'Croagur',
-      quantity: 0
-    },
-    {
-      name: 'spring mix',
-      price: 4.99,
-      category: 'food',
-      brand: 'Croagur',
-      quantity: 0
-    },
-    {
-      name: 'hand sanitizer',
-      price: 999.99,
-      category: 'other essentials',
-      brand: 'Croagur',
-      quantity: 0
-    },
-    {
-      name: 'sanitizing wipes',
-      price: 3.99,
-      category: 'other essentials',
-      brand: 'Croagur',
-      quantity: 0
-    },
-    {
-      name: 'face masks',
-      price: 12.99,
-      category: 'other essentials',
-      brand: 'Croagur',
-      quantity: 0
-    },
-    {
-      name: 'disposable gloves',
-      price: 18.99,
-      category: 'other essentials',
-      brand: 'Croagur',
-      quantity: 0
-    },
-    {
-      name: 'whiskey',
-      price: 24.99,
-      category: 'other essentials',
-      brand: 'CarcinoGen',
-      quantity: 0
-    },
-    {
-      name: 'toilet paper',
-      price: 7.99,
-      category: 'non-essentials',
-      brand: 'Good Value',
-      quantity: 0
-    }
-  ]);
+  // items that haven't yet been added to cart
+  const [items, setItems] = useState(pantry.map(el => ({ ...el })));
   // things to store in state
   const [id, setId] = useState(nanoid());
   console.log(id);
@@ -103,7 +106,8 @@ const App = () => {
     'non-essentials'
   ]);
   const [brands, setBrands] = useState(['Good Value', 'Croagur', 'CarcinoGen']);
-  const [itemsInCart, setItemsInCart] = useState([]);
+  const [itemsInCart, setItemsInCart] = useState(pantry.map(el => ({ ...el })));
+  const [justAdded, setJustAdded] = useState(false);
   // event handlers
   const sortIncreasing = () => {
     setPriceDirection('low to high');
@@ -111,7 +115,7 @@ const App = () => {
   const sortDecreasing = () => {
     setPriceDirection('high to low');
   };
-  const filterApp = (id, val) => {
+  const filterApp = id => {
     switch (id) {
       case 'checkbox-food':
         if (categories.includes('food')) {
@@ -166,17 +170,68 @@ const App = () => {
     setBrands(['Good Value', 'Croagur', 'CarcinoGen']);
   };
   // change item quantities
-  const changeQuantity = (id, val) => {
-    // find item to change
-    const name = id.split('-')[1];
+  const changeQuantity = (name, val) => {
     // set state in an immutable way
     const itemsCopy = items.map(item => ({ ...item }));
-    itemsCopy.find(item => item.name === name).quantity = val;
+    itemsCopy.find(item => item.name === name).quantity = +val;
     setItems(itemsCopy);
+  };
+  // add items to cart
+  const addToCart = e => {
+    const {
+      target: {
+        dataset: { item: name }
+      }
+    } = e;
+    // if quantity to add more than 0, add items to cart
+    const { quantity } = items.find(item => item.name === name);
+    if (quantity > 0) {
+      const itemsCopy1 = itemsInCart.map(item => ({ ...item }));
+      itemsCopy1.find(item => item.name === name).quantity += quantity;
+      setItemsInCart(itemsCopy1);
+      // set item quantity back to 0
+      const itemsCopy2 = items.map(item => ({ ...item }));
+      itemsCopy2.find(item => item.name === name).quantity = 0;
+      setItems(itemsCopy2);
+      // display alert briefly
+      setJustAdded(true);
+      setTimeout(() => {
+        setJustAdded(false);
+      }, 1000);
+    }
+  };
+  const changeCartQuantity = (name, val) => {
+    const itemsInCartCopy = itemsInCart.map(item => ({ ...item }));
+    itemsInCartCopy.find(item => item.name === name).quantity = val;
+    setItemsInCart(itemsInCartCopy);
+  };
+  const removeFromCart = e => {
+    const {
+      target: {
+        dataset: { item: name }
+      }
+    } = e;
+    const itemsInCartCopy = itemsInCart.map(item => ({ ...item }));
+    itemsInCartCopy.find(item => item.name === name).quantity = 0;
+    setItemsInCart(itemsInCartCopy);
+  };
+  const calculateTotal = () => {
+    let total = 0;
+    for (const item of itemsInCart) {
+      total += item.price * item.quantity;
+    }
+    alert(`your total: $${total.toFixed(2)}`);
   };
   // what to render to DOM
   return (
     <div className="app">
+      <div
+        className={`alert alert-success position-fixed w-100 d-${
+          justAdded ? 'block' : 'none'
+        }`}
+      >
+        added to cart!
+      </div>
       <h1>COVID-19 Hoarding Simulator</h1>
       <Sort
         priceDirection={priceDirection}
@@ -197,9 +252,15 @@ const App = () => {
         categories={categories}
         brands={brands}
         changeQuantity={changeQuantity}
+        addToCart={addToCart}
       />
       <div className="divider" />
-      <Cart itemsInCart={itemsInCart} />
+      <Cart
+        itemsInCart={itemsInCart}
+        changeCartQuantity={changeCartQuantity}
+        removeFromCart={removeFromCart}
+        calculateTotal={calculateTotal}
+      />
     </div>
   );
 };

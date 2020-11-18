@@ -1,11 +1,12 @@
 import React from 'react';
 
-const Item = ({ name, price, category, brand, quantity, changeQuantity }) => {
+const Item = ({ name, price, category, brand, quantity, changeQuantity, addToCart }) => {
+  const inputName = name.replaceAll(' ', '-');
   return (
     <div className="item">
       <img
         src={require(`./images/${name.replaceAll(' ', '_')}.jpg`).default}
-        alt="whatever"
+        alt={name}
         className="img-fluid img-fluid-not-cart"
       />
       <h3 className="mt-2">
@@ -15,17 +16,17 @@ const Item = ({ name, price, category, brand, quantity, changeQuantity }) => {
       <p>
         {category} - {brand}
       </p>
-      <div className="flex">
-        <label htmlFor={`item-${name}`}>quantity</label>
+      <div>
+        <label htmlFor={`item-${inputName}`}>quantity</label>
         <div>
           <input
             type="number"
-            id={`item-${name}`}
+            id={`item-${inputName}`}
             min="0"
             value={quantity}
-            onChange={e => changeQuantity(e.target.id, e.target.value)}
+            onChange={e => changeQuantity(name, e.target.value)}
           />
-          <button className="btn btn-dark ml-3">add to cart</button>
+          <button className="btn btn-dark ml-3" onClick={addToCart} data-item={name}>add to cart</button>
         </div>
       </div>
     </div>
