@@ -7,8 +7,8 @@ const Filter = ({
   resetCategories,
   resetBrands
 }) => {
-  // can't name function in App & Filter the same so have to name them
-  // something stupid like this
+  /* can't name function in App & Filter the same so have to name them
+  something stupid like this */
   const filterFilter = e => {
     filterApp(e.target.id);
   };

@@ -9,10 +9,15 @@ const FilteredItems = ({
   changeQuantity,
   addToCart
 }) => {
+  // use App's state to determine which items to display here
   const itemsToRenderUnsorted = items.filter(
     item => categories.includes(item.category) && brands.includes(item.brand)
   );
   let itemsToRenderSorted;
+  /* Array#sort(): b comes before a;
+     if function returns positive number, sort b before a (more expensive before less);
+     if function returns negative number, sort a before b (less expensive before more)
+  */
   if (priceDirection === 'low to high') {
     itemsToRenderSorted = itemsToRenderUnsorted.sort(
       (a, b) => a.price - b.price

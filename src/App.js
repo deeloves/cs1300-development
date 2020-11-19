@@ -6,6 +6,7 @@ import FilteredItems from './FilteredItems';
 import Cart from './Cart';
 import './App.scss';
 
+// to be used for 2 separate pieces of state, so included outside App
 const pantry = [
   {
     name: 'rice',
@@ -97,8 +98,6 @@ const App = () => {
   // items that haven't yet been added to cart
   const [items, setItems] = useState(pantry.map(el => ({ ...el })));
   // things to store in state
-  const [id, setId] = useState(nanoid());
-  console.log(id);
   const [priceDirection, setPriceDirection] = useState('low to high');
   const [categories, setCategories] = useState([
     'food',
@@ -121,6 +120,7 @@ const App = () => {
         if (categories.includes('food')) {
           setCategories(categories.filter(el => el !== 'food'));
         } else {
+          // set state in an immutable way
           setCategories([...categories, 'food']);
         }
         break;
@@ -202,7 +202,7 @@ const App = () => {
   };
   const changeCartQuantity = (name, val) => {
     const itemsInCartCopy = itemsInCart.map(item => ({ ...item }));
-    itemsInCartCopy.find(item => item.name === name).quantity = val;
+    itemsInCartCopy.find(item => item.name === name).quantity = +val;
     setItemsInCart(itemsInCartCopy);
   };
   const removeFromCart = e => {
@@ -225,6 +225,7 @@ const App = () => {
   // what to render to DOM
   return (
     <div className="app">
+      {/* alert to show when item added to cart */}
       <div
         className={`alert alert-success position-fixed w-100 d-${
           justAdded ? 'block' : 'none'

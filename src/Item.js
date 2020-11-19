@@ -4,6 +4,7 @@ const Item = ({ name, price, category, brand, quantity, changeQuantity, addToCar
   const inputName = name.replaceAll(' ', '-');
   return (
     <div className="item">
+      {/* images in images folder have underscores in their names, not spaces */}
       <img
         src={require(`./images/${name.replaceAll(' ', '_')}.jpg`).default}
         alt={name}
@@ -19,6 +20,8 @@ const Item = ({ name, price, category, brand, quantity, changeQuantity, addToCar
       <div>
         <label htmlFor={`item-${inputName}`}>quantity</label>
         <div>
+          {/* when you click on an <input type="number">'s up or down arrows,
+              e.target.value = incremented/decremented value */}
           <input
             type="number"
             id={`item-${inputName}`}
@@ -26,6 +29,7 @@ const Item = ({ name, price, category, brand, quantity, changeQuantity, addToCar
             value={quantity}
             onChange={e => changeQuantity(name, e.target.value)}
           />
+          {/* use data-item value associate button w/ item & use in App */}
           <button className="btn btn-dark ml-3" onClick={addToCart} data-item={name}>add to cart</button>
         </div>
       </div>
