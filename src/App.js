@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
 import Sort from './Sort';
 import Filter from './Filter';
 import FilteredItems from './FilteredItems';

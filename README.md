@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+# CS1300 Development: COVID-19 Hoarding Simulator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## component organization
 
-## Available Scripts
+components in this project:
+- App
+- Cart
+- Filter
+- FilteredItems
+- Item
+- ItemInCart
+- Sort
 
-In the project directory, you can run:
+<img src="flowchart.png" alt="flowchart of components in this app">
 
-### `npm start`
+## passing data through components
+data is stored as state in App and gets passed through to child components via props.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+the pieces of state are:
+- items—in descriptions, not in cart; passed to FilteredItems, which filters & maps through them to create individual Item components
+- priceDirection—from either low to high (initial) or high to low; passed to Sort
+- categories—separated into food, other essentials & non-essentials; passed to Filter
+- brands—separated into Good Value, Croagur & CarcinoGen; also passed to Filter
+- itemsInCart—in cart, not descriptions; passed to Cart, which maps through them to create individual ItemInCart components
+- justAdded—true when user just added an item to cart, false otherwise; not passed as props to any components, but gets changed based on activity within individual Item components
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## producing state changes
+users can interact with the following elements to set the App's state:
+- Sort buttons—click to call sortIncreasing() or sortDecreasing() from App passed to this component as props; choose whether to show cheapest or most expensive item descriptions at top
+- Filter reset text—click to call resetCategories() or resetBrands() from App passed to this component as props; re-checks all categories
+- Filter checkboxes—click to call filterApp() from App passed to this component as props; check/uncheck a category or brand
+- Item quantity input—click up/down arrows or enter in a value to call changeQuantity() from App passed through all intermediate components as props; increase/decrease quantity in descriptions
+- Item "add to cart" button—click to call addToCart() from App passed through all intermediate components as props; add current quantity of item to cart, set quantity in descriptions back to 0 & briefly show alert at top of page telling user they've added item to cart
+- ItemInCart quantity input—click up/down arrows or enter in a value to call changeCartQuantity() from App passed through all intermediate components as props; increase/decrease quantity in cart (if 0, remove from cart)
+- ItemInCart "remove all from cart" button—click to call removeFromCart() from App passed through all intermediate components as props; set quantity of item in cart back to 0
+- Cart "checkout" button—click to get how much all items in cart cost & alert this total
